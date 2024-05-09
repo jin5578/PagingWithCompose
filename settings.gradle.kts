@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "PagingWithCompose"
 include(":app")
+include(":domain")
+include(":data")
+include(":presentation")

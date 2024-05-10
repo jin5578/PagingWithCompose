@@ -58,5 +58,8 @@ dependencies {
     //okhttp
     implementation(libs.okhttp)
 
+    //datastore
+    implementation(libs.datastore)
+
     implementation(project(":domain"))
 }

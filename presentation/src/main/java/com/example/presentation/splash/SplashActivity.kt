@@ -3,22 +3,33 @@ package com.example.presentation.splash
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.domain.usecase.GetKakaoRestApiKeyUseCase
+import com.example.domain.usecase.SetKakaoRestApiKeyUseCase
 import com.example.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+    @Inject
+    lateinit var getKakaoRestApiKeyUseCase: GetKakaoRestApiKeyUseCase
+
+    @Inject
+    lateinit var setKakaoRestApiKeyUseCase: SetKakaoRestApiKeyUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            launch {
-                delay(DELAY_TIME_MILLIS)
-            }.join()
+            val isAddedKakaoRestApiKey = !getKakaoRestApiKeyUseCase().isNullOrEmpty()
 
-            intentToMain()
+            if (isAddedKakaoRestApiKey) {
+                intentToMain()
+            } else {
+                setKakaoRestApiKeyUseCase(KAKAO_REST_API_KEY)
+                intentToMain()
+            }
         }
     }
 
@@ -27,6 +38,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val DELAY_TIME_MILLIS = 300L
+        private const val KAKAO_REST_API_KEY = "e64dc07375b3f3320322535c5735e782"
     }
 }

@@ -20,6 +20,7 @@ kotlinx-serialization-json = "1.5.0"
 retrofit = "2.9.0"
 retrofit-converter-serialization = "1.0.0"
 okhttp = "4.12.0"
+datastore = "1.1.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -49,6 +50,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-converter-serialization" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }

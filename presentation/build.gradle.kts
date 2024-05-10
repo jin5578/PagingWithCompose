@@ -63,5 +63,14 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
 
+    //Navigation
+    implementation(libs.navigation.compose)
+    implementation(libs.hilt.navigation.compose)
+
+    //Orbit
+    implementation(libs.orbit.core)
+    implementation(libs.orbit.compose)
+    implementation(libs.orbit.viewmodel)
+
     implementation(project(":domain"))
 }

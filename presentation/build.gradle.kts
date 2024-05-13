@@ -35,6 +35,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -71,6 +72,9 @@ dependencies {
     implementation(libs.orbit.core)
     implementation(libs.orbit.compose)
     implementation(libs.orbit.viewmodel)
+
+    //Timber
+    implementation(libs.timber)
 
     implementation(project(":domain"))
 }

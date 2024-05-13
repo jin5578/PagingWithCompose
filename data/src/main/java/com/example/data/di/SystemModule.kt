@@ -1,9 +1,9 @@
 package com.example.data.di
 
-import com.example.data.usecase.GetKakaoRestApiKeyUseCaseImpl
-import com.example.data.usecase.SetKakaoRestApiKeyUseCaseImpl
-import com.example.domain.usecase.GetKakaoRestApiKeyUseCase
-import com.example.domain.usecase.SetKakaoRestApiKeyUseCase
+import com.example.data.usecase.system.GetKakaoRestApiKeyUseCaseImpl
+import com.example.data.usecase.system.SetKakaoRestApiKeyUseCaseImpl
+import com.example.domain.usecase.system.GetKakaoRestApiKeyUseCase
+import com.example.domain.usecase.system.SetKakaoRestApiKeyUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

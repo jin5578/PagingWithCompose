@@ -1,6 +1,8 @@
 package com.example.presentation.main
 
 import androidx.lifecycle.ViewModel
+import com.example.domain.usecase.main.SearchKeywordUseCase
+import com.example.presentation.model.toUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import org.orbitmvi.orbit.Container
@@ -17,7 +19,7 @@ import javax.inject.Inject
 @OptIn(OrbitExperimental::class)
 @HiltViewModel
 class MainViewModel @Inject constructor(
-
+    private val searchKeywordUseCase: SearchKeywordUseCase
 ) : ViewModel(), ContainerHost<MainScreenState, MainScreenSideEffect> {
     override val container: Container<MainScreenState, MainScreenSideEffect> = container(
         initialState = MainScreenState(),
@@ -36,6 +38,21 @@ class MainViewModel @Inject constructor(
 
     fun onTextChange(keyword: String) = blockingIntent {
         reduce { state.copy(keyword = keyword) }
+        loadLocation(state.keyword)
+    }
+
+    private fun loadLocation(keyword: String) = intent {
+        val test = searchKeywordUseCase(
+            keyword,
+            1,
+            15
+        ).getOrThrow().map {
+            it.toUIModel()
+        }
+    }
+
+    companion object {
+        val TAG = MainViewModel::class.simpleName
     }
 }
 

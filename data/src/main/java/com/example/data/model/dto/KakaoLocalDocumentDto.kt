@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class KakaoLocalDocumentDto(
+    @SerialName("id")
+    val id: String,
     @SerialName("address_name")
     val addressName: String,
     @SerialName("road_address_name")
@@ -18,6 +20,7 @@ fun KakaoLocalDocumentDto.toDomainModel(): Location {
     val addressName = this.roadAddressName.ifEmpty { this.addressName }
 
     return Location(
+        id = id,
         addressName = addressName,
         placeName = this.placeName
     )

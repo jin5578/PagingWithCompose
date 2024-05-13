@@ -1,6 +1,7 @@
 package com.example.presentation.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -17,6 +18,7 @@ fun PWCTextField(
     onTextChange: (String) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     TextField(
         modifier = modifier,
@@ -30,5 +32,6 @@ fun PWCTextField(
         shape = RoundedCornerShape(8.dp),
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
     )
 }

@@ -22,6 +22,7 @@ retrofit-converter-serialization = "1.0.0"
 okhttp = "4.12.0"
 datastore = "1.1.1"
 timber = "5.0.1"
+paging = "3.2.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -53,6 +54,9 @@ retrofit-converter-serialization = { group = "com.jakewharton.retrofit", name = 
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
+paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }

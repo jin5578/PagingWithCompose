@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class KakaoLocalResponseDto<T>(
+    @SerialName("meta")
+    val meta: KeywordMetaDto,
     @SerialName("documents")
     val documentList: List<T>
 )

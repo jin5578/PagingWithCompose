@@ -76,5 +76,8 @@ dependencies {
     //Timber
     implementation(libs.timber)
 
+    //Paging
+    implementation(libs.paging.compose)
+
     implementation(project(":domain"))
 }

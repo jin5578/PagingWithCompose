@@ -61,5 +61,8 @@ dependencies {
     //datastore
     implementation(libs.datastore)
 
+    //paging3
+    implementation(libs.paging.runtime)
+
     implementation(project(":domain"))
 }

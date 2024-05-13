@@ -41,7 +41,7 @@ class SplashActivity : AppCompatActivity() {
 
     companion object {
         val TAG = SplashActivity::class.simpleName
-        
+
         private const val KAKAO_REST_API_KEY = "KakaoAK e64dc07375b3f3320322535c5735e782"
     }
 }

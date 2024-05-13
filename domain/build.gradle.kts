@@ -8,3 +8,11 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+
+dependencies {
+    //serialization
+    implementation(libs.retrofit.converter.serialization)
+
+    //paging3 - common(안드로이드 의존성 X)
+    implementation(libs.paging.common)
+}

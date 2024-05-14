@@ -41,6 +41,9 @@ import kotlinx.coroutines.flow.flowOf
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
+const val EMPTY_KEYWORD_TEXT = "키워드를 입력해주세요."
+const val EMPTY_LOCATION_TEXT = "검색 결과가 없습니다."
+
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
@@ -106,13 +109,14 @@ private fun MainScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             if (locationUIModelList.itemCount == 0) {
+                val text = if (keyword.isBlank()) EMPTY_KEYWORD_TEXT else EMPTY_LOCATION_TEXT
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "검색 결과가 없습니다.",
+                        text = text,
                         textAlign = TextAlign.Center
                     )
                 }

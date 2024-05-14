@@ -20,8 +20,8 @@ fun KakaoLocalDocumentDto.toDomainModel(): Location {
     val addressName = this.roadAddressName.ifEmpty { this.addressName }
 
     return Location(
-        id = id,
+        placeId = id,
         addressName = addressName,
-        placeName = this.placeName
+        placeName = this.placeName,
     )
 }

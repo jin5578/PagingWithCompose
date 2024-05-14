@@ -28,7 +28,6 @@ class LocationPagingSource @Inject constructor(
         )
 
         val locationList = keywordResponse.documentList
-
         return LoadResult.Page(
             data = locationList.map { it.toDomainModel() },
             prevKey = if (position == START_INDEX) null else position - 1,

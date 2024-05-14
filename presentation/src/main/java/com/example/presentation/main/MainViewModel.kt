@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.domain.usecase.main.SearchKeywordUseCase
+import com.example.domain.usecase.room.DeletePlaceUseCase
+import com.example.domain.usecase.room.FindPlaceIdListUseCase
+import com.example.domain.usecase.room.InsertPlaceUseCase
 import com.example.presentation.model.LocationUIModel
+import com.example.presentation.model.toDomainModel
 import com.example.presentation.model.toUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -25,7 +29,10 @@ import javax.inject.Inject
 @OptIn(OrbitExperimental::class)
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val searchKeywordUseCase: SearchKeywordUseCase
+    private val searchKeywordUseCase: SearchKeywordUseCase,
+    private val insertPlaceUseCase: InsertPlaceUseCase,
+    private val findPlaceIdListUseCase: FindPlaceIdListUseCase,
+    private val deletePlaceUseCase: DeletePlaceUseCase
 ) : ViewModel(), ContainerHost<MainScreenState, MainScreenSideEffect> {
     override val container: Container<MainScreenState, MainScreenSideEffect> = container(
         initialState = MainScreenState(),
@@ -41,6 +48,10 @@ class MainViewModel @Inject constructor(
             }
         }
     )
+
+    init {
+        loadBookmarkPlaceIdList()
+    }
 
     fun onTextChange(keyword: String) = blockingIntent {
         reduce { state.copy(keyword = keyword) }
@@ -59,12 +70,26 @@ class MainViewModel @Inject constructor(
                 location.toUIModel()
             }
         }
-
         reduce { state.copy(locationUIModelFlow = locationUIModelFlow) }
     }
 
-    fun onBookmarkClick(isBookmark: Boolean) {
+    private fun loadBookmarkPlaceIdList() = intent {
+        val bookmarkPlaceIdList = findPlaceIdListUseCase().getOrThrow()
+        reduce { state.copy(bookmarkPlaceIdList = bookmarkPlaceIdList) }
+    }
 
+    fun onBookmarkClick(locationUIModel: LocationUIModel) = intent {
+        val placeId = locationUIModel.placeId
+        val isBookmarked = state.bookmarkPlaceIdList.contains(placeId)
+
+        if (isBookmarked) {
+            deletePlaceUseCase(placeId)
+            reduce { state.copy(bookmarkPlaceIdList = state.bookmarkPlaceIdList - placeId) }
+        } else {
+            val location = locationUIModel.toDomainModel()
+            insertPlaceUseCase(location)
+            reduce { state.copy(bookmarkPlaceIdList = state.bookmarkPlaceIdList + placeId) }
+        }
     }
 
     fun onResetClick() = intent {
@@ -79,7 +104,8 @@ class MainViewModel @Inject constructor(
 @Immutable
 data class MainScreenState(
     val keyword: String = "",
-    val locationUIModelFlow: Flow<PagingData<LocationUIModel>> = emptyFlow()
+    val locationUIModelFlow: Flow<PagingData<LocationUIModel>> = emptyFlow(),
+    val bookmarkPlaceIdList: List<String> = emptyList()
 )
 
 sealed interface MainScreenSideEffect {

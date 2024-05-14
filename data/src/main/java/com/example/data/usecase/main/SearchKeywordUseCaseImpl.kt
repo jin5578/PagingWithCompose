@@ -21,7 +21,12 @@ class SearchKeywordUseCaseImpl @Inject constructor(
                 pageSize = 10,
                 initialLoadSize = 10
             ),
-            pagingSourceFactory = { LocationPagingSource(kakaoLocalService, query) }
+            pagingSourceFactory = {
+                LocationPagingSource(
+                    kakaoLocalService,
+                    query,
+                )
+            }
         ).flow
     }
 }

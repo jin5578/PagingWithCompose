@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,14 +24,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pagingwithcompose.ui.theme.PagingWithComposeTheme
+import com.example.presentation.model.LocationUIModel
 
 @Composable
 fun LocationCard(
-    id: String,
-    placeName: String,
-    addressName: String,
-    isBookmark: Boolean,
-    onBookmarkClick: (Boolean) -> Unit
+    locationUIModel: LocationUIModel,
+    bookmarkPlaceIdList: List<String>,
+    onBookmarkClick: (LocationUIModel) -> Unit,
 ) {
     Surface {
         Row(
@@ -43,19 +41,16 @@ fun LocationCard(
                 ).padding(vertical = 8.dp).padding(end = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { onBookmarkClick(!isBookmark) }) {
+            val isBookmarkPlace = bookmarkPlaceIdList.contains(locationUIModel.placeId)
+            IconButton(onClick = { onBookmarkClick(locationUIModel) }) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    imageVector = if (isBookmark) {
-                        Icons.Filled.Favorite
-                    } else {
-                        Icons.Outlined.FavoriteBorder
-                    },
+                    imageVector = Icons.Filled.Favorite,
                     contentDescription = "북마크",
-                    tint = if (isBookmark) {
+                    tint = if (isBookmarkPlace) {
                         Color.Red
                     } else {
-                        Color.Gray
+                        Color.LightGray
                     }
                 )
             }
@@ -65,7 +60,7 @@ fun LocationCard(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = placeName,
+                    text = locationUIModel.placeName,
                     overflow = TextOverflow.Ellipsis
                 )
 
@@ -73,7 +68,7 @@ fun LocationCard(
 
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = addressName,
+                    text = locationUIModel.addressName,
                     overflow = TextOverflow.Ellipsis
                 )
             }
@@ -86,10 +81,12 @@ fun LocationCard(
 fun LocationCardPreview() {
     PagingWithComposeTheme {
         LocationCard(
-            id = "1",
-            placeName = "강남역 2호선",
-            addressName = "서울 강남구 강남대로 지하 396 지하",
-            isBookmark = true,
+            locationUIModel = LocationUIModel(
+                placeId = "recteque",
+                addressName = "Lila Robbins",
+                placeName = "Elvin Battle",
+            ),
+            bookmarkPlaceIdList = emptyList(),
             onBookmarkClick = {}
         )
     }

@@ -1,6 +1,6 @@
 package com.example.data.usecase.system
 
-import com.example.data.datastore.KakaoDataStore
+import com.example.data.database.datastore.KakaoDataStore
 import com.example.domain.usecase.system.GetKakaoRestApiKeyUseCase
 import javax.inject.Inject
 

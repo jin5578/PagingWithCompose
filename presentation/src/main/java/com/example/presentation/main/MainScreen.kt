@@ -61,6 +61,7 @@ fun MainScreen(
     MainScreen(
         keyword = state.keyword,
         locationUIModelList = state.locationUIModelFlow.collectAsLazyPagingItems(),
+        bookmarkPlaceIdList = state.bookmarkPlaceIdList,
         onTextChange = viewModel::onTextChange,
         onResetClick = viewModel::onResetClick,
         onBookmarkClick = viewModel::onBookmarkClick
@@ -71,9 +72,10 @@ fun MainScreen(
 private fun MainScreen(
     keyword: String,
     locationUIModelList: LazyPagingItems<LocationUIModel>,
+    bookmarkPlaceIdList: List<String>,
     onTextChange: (String) -> Unit,
     onResetClick: () -> Unit,
-    onBookmarkClick: (Boolean) -> Unit,
+    onBookmarkClick: (LocationUIModel) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -127,14 +129,12 @@ private fun MainScreen(
                 ) {
                     items(
                         count = locationUIModelList.itemCount,
-                        key = { index -> locationUIModelList[index]?.id ?: index }
+                        key = { index -> locationUIModelList[index]?.placeId ?: index }
                     ) { index ->
                         locationUIModelList[index]?.run {
                             LocationCard(
-                                id = this.id,
-                                placeName = this.placeName,
-                                addressName = this.addressName,
-                                isBookmark = true,
+                                locationUIModel = this,
+                                bookmarkPlaceIdList = bookmarkPlaceIdList,
                                 onBookmarkClick = onBookmarkClick
                             )
                         }
@@ -152,9 +152,9 @@ fun MainScreenPreview() {
         PagingData.from(
             listOf(
                 LocationUIModel(
-                    id = "id",
+                    placeId = "id",
                     addressName = "Blanche Davis",
-                    placeName = "Mariano Gentry"
+                    placeName = "Mariano Gentry",
                 ),
             )
         )
@@ -164,6 +164,7 @@ fun MainScreenPreview() {
         MainScreen(
             keyword = "asdasd",
             locationUIModelList = defaultFlow.collectAsLazyPagingItems(),
+            bookmarkPlaceIdList = emptyList(),
             onTextChange = {},
             onResetClick = {},
             onBookmarkClick = {}

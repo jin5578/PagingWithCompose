@@ -64,5 +64,10 @@ dependencies {
     //paging3
     implementation(libs.paging.runtime)
 
+    //room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    annotationProcessor(libs.room.compiler)
+
     implementation(project(":domain"))
 }

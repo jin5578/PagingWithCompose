@@ -1,13 +1,13 @@
 package com.example.data.usecase.room
 
-import com.example.data.database.room.PlaceDao
+import com.example.data.database.room.RoomDatabase
 import com.example.domain.usecase.room.DeletePlaceUseCase
 import javax.inject.Inject
 
 class DeletePlaceUseCaseImpl @Inject constructor(
-    private val dao: PlaceDao
+    private val roomDatabase: RoomDatabase
 ) : DeletePlaceUseCase {
     override suspend fun invoke(placeId: String): Result<Unit> = runCatching {
-        dao.deletePlace(placeId)
+        roomDatabase.placeDao().deletePlace(placeId)
     }
 }

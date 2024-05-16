@@ -1,6 +1,6 @@
 package com.example.data.di
 
-import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.example.data.database.room.RoomDatabase
 import dagger.Module
@@ -14,9 +14,9 @@ abstract class RoomDatabaseModule {
     companion object {
         @Provides
         fun provideRoomDatabase(
-            application: Application
+            context: Context
         ): RoomDatabase =
-            Room.databaseBuilder(application, RoomDatabase::class.java, "ROOMDB")
+            Room.databaseBuilder(context, RoomDatabase::class.java, "ROOMDB")
                 .fallbackToDestructiveMigration()
                 .build()
     }

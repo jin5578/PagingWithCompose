@@ -1,9 +1,10 @@
-package com.example.presentation.main
+package com.example.presentation.searchlocation
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,35 +47,38 @@ const val EMPTY_KEYWORD_TEXT = "키워드를 입력해주세요."
 const val EMPTY_LOCATION_TEXT = "검색 결과가 없습니다."
 
 @Composable
-fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel()
+fun SearchLocationScreen(
+    viewModel: SearchLocationViewModel = hiltViewModel(),
+    onBackClick: () -> Unit,
 ) {
     val context = LocalContext.current
 
-    val state: MainScreenState = viewModel.collectAsState().value
+    val state: SearchLocationScreenState = viewModel.collectAsState().value
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is MainScreenSideEffect.Toast ->
+            is SearchLocationScreenSideEffect.Toast ->
                 Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
         }
     }
 
-    MainScreen(
+    SearchLocationScreen(
         keyword = state.keyword,
         locationUIModelList = state.locationUIModelFlow.collectAsLazyPagingItems(),
         bookmarkPlaceIdList = state.bookmarkPlaceIdList,
         onTextChange = viewModel::onTextChange,
+        onBackClick = onBackClick,
         onResetClick = viewModel::onResetClick,
         onBookmarkClick = viewModel::onBookmarkClick
     )
 }
 
 @Composable
-private fun MainScreen(
+private fun SearchLocationScreen(
     keyword: String,
     locationUIModelList: LazyPagingItems<LocationUIModel>,
     bookmarkPlaceIdList: List<String>,
     onTextChange: (String) -> Unit,
+    onBackClick: () -> Unit,
     onResetClick: () -> Unit,
     onBookmarkClick: (LocationUIModel) -> Unit,
 ) {
@@ -81,34 +86,50 @@ private fun MainScreen(
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 20.dp)
+                .padding(vertical = 10.dp)
         ) {
-            Box {
-                PWCTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = keyword,
-                    onTextChange = onTextChange,
-                    visualTransformation = VisualTransformation.None,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(
-                        onSearch = { focusManager.clearFocus() }
-                    )
-                )
-
-                IconButton(
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    onClick = onResetClick,
-                ) {
+            Row(
+                modifier = Modifier.padding(end = 20.dp).padding(start = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = onBackClick) {
                     Icon(
-                        modifier = Modifier.size(18.dp),
-                        imageVector = Icons.Rounded.Clear,
-                        contentDescription = "지우기",
+                        modifier = Modifier.size(24.dp),
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "뒤로 가기",
                         tint = Color.Gray
                     )
                 }
+
+                Box(modifier = Modifier.padding(start = 4.dp)) {
+                    PWCTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = keyword,
+                        onTextChange = onTextChange,
+                        visualTransformation = VisualTransformation.None,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        keyboardActions = KeyboardActions(
+                            onSearch = { focusManager.clearFocus() }
+                        )
+                    )
+
+                    if (keyword.isNotBlank()) {
+                        IconButton(
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                            onClick = onResetClick,
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                imageVector = Icons.Rounded.Clear,
+                                contentDescription = "지우기",
+                                tint = Color.Gray
+                            )
+                        }
+                    }
+                }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             if (locationUIModelList.itemCount == 0) {
                 val text = if (keyword.isBlank()) EMPTY_KEYWORD_TEXT else EMPTY_LOCATION_TEXT
@@ -124,7 +145,7 @@ private fun MainScreen(
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(
@@ -147,7 +168,7 @@ private fun MainScreen(
 
 @Preview
 @Composable
-fun MainScreenPreview() {
+fun SearchLocationScreenPreview() {
     val defaultFlow = flowOf(
         PagingData.from(
             listOf(
@@ -161,11 +182,12 @@ fun MainScreenPreview() {
     )
 
     PagingWithComposeTheme {
-        MainScreen(
+        SearchLocationScreen(
             keyword = "asdasd",
             locationUIModelList = defaultFlow.collectAsLazyPagingItems(),
             bookmarkPlaceIdList = emptyList(),
             onTextChange = {},
+            onBackClick = {},
             onResetClick = {},
             onBookmarkClick = {}
         )

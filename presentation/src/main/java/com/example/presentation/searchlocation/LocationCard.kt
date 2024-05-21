@@ -1,4 +1,4 @@
-package com.example.presentation.main
+package com.example.presentation.searchlocation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

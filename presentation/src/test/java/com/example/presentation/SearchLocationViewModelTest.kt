@@ -6,7 +6,7 @@ import com.example.domain.usecase.main.SearchKeywordUseCase
 import com.example.domain.usecase.room.DeletePlaceUseCase
 import com.example.domain.usecase.room.FindPlaceIdListUseCase
 import com.example.domain.usecase.room.InsertPlaceUseCase
-import com.example.presentation.main.MainViewModel
+import com.example.presentation.searchlocation.SearchLocationViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.junit.Assert
@@ -15,13 +15,13 @@ import org.junit.Test
 
 private const val testKeyword = "부천"
 
-class MainViewModelTest {
+class SearchLocationViewModelTest {
     private lateinit var searchKeywordUseCase: SearchKeywordUseCase
     private lateinit var insertPlaceUseCase: InsertPlaceUseCase
     private lateinit var findPlaceIdListUseCase: FindPlaceIdListUseCase
     private lateinit var deletePlaceUseCase: DeletePlaceUseCase
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: SearchLocationViewModel
 
     @Before
     fun setUp() {
@@ -30,7 +30,7 @@ class MainViewModelTest {
         findPlaceIdListUseCase = FakeFindPlaceIdListUseCase()
         deletePlaceUseCase = FakeDeletePlaceUseCase()
 
-        viewModel = MainViewModel(
+        viewModel = SearchLocationViewModel(
             searchKeywordUseCase = searchKeywordUseCase,
             insertPlaceUseCase = insertPlaceUseCase,
             findPlaceIdListUseCase = findPlaceIdListUseCase,

@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
+import com.example.presentation.theme.Dimensions
 
 @Composable
 fun PWCTextField(
@@ -27,9 +27,11 @@ fun PWCTextField(
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
+            disabledIndicatorColor = Color.Transparent,
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.DarkGray
         ),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(Dimensions.xmedium),
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions

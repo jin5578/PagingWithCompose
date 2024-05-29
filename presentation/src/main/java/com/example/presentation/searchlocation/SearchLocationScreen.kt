@@ -19,6 +19,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,15 +37,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.pagingwithcompose.ui.theme.PagingWithComposeTheme
 import com.example.presentation.component.PWCTextField
 import com.example.presentation.model.LocationUIModel
+import com.example.presentation.theme.Dimensions
+import com.example.presentation.theme.PagingWithComposeTheme
 import kotlinx.coroutines.flow.flowOf
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 const val EMPTY_KEYWORD_TEXT = "키워드를 입력해주세요."
 const val EMPTY_LOCATION_TEXT = "검색 결과가 없습니다."
+const val DELETE_TEXT = "지우기"
 
 @Composable
 fun SearchLocationScreen(
@@ -86,22 +89,22 @@ private fun SearchLocationScreen(
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(vertical = 10.dp)
+                .padding(vertical = Dimensions.medium)
         ) {
             Row(
-                modifier = Modifier.padding(end = 20.dp).padding(start = 4.dp),
+                modifier = Modifier.padding(end = Dimensions.xlarge, start = Dimensions.small),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onBackClick) {
                     Icon(
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(Dimensions.extra),
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "뒤로 가기",
-                        tint = Color.Gray
+                        tint = Color.Black
                     )
                 }
 
-                Box(modifier = Modifier.padding(start = 4.dp)) {
+                Box(modifier = Modifier.padding(start = Dimensions.small)) {
                     PWCTextField(
                         modifier = Modifier.fillMaxWidth(),
                         text = keyword,
@@ -119,9 +122,9 @@ private fun SearchLocationScreen(
                             onClick = onResetClick,
                         ) {
                             Icon(
-                                modifier = Modifier.size(18.dp),
+                                modifier = Modifier.size(Dimensions.xlarge),
                                 imageVector = Icons.Rounded.Clear,
-                                contentDescription = "지우기",
+                                contentDescription = DELETE_TEXT,
                                 tint = Color.Gray
                             )
                         }
@@ -129,7 +132,7 @@ private fun SearchLocationScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(Dimensions.medium))
 
             if (locationUIModelList.itemCount == 0) {
                 val text = if (keyword.isBlank()) EMPTY_KEYWORD_TEXT else EMPTY_LOCATION_TEXT
@@ -140,13 +143,15 @@ private fun SearchLocationScreen(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = text,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    modifier = Modifier.fillMaxSize().padding(horizontal = Dimensions.xlarge),
+                    verticalArrangement = Arrangement.spacedBy(Dimensions.medium)
                 ) {
                     items(
                         count = locationUIModelList.itemCount,

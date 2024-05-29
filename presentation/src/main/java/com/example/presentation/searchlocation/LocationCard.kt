@@ -19,12 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.pagingwithcompose.ui.theme.PagingWithComposeTheme
 import com.example.presentation.model.LocationUIModel
+import com.example.presentation.theme.Dimensions
+import com.example.presentation.theme.PagingWithComposeTheme
+import com.example.presentation.theme.customColorScheme
+
+const val BOOKMARK_TEXT = "북마크"
 
 @Composable
 fun LocationCard(
@@ -37,20 +39,24 @@ fun LocationCard(
             modifier = Modifier.fillMaxWidth()
                 .background(
                     color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = RoundedCornerShape(8.dp)
-                ).padding(vertical = 8.dp).padding(end = 8.dp),
+                    shape = RoundedCornerShape(Dimensions.xmedium)
+                ).padding(
+                    top = Dimensions.xmedium,
+                    bottom = Dimensions.xmedium,
+                    end = Dimensions.xmedium,
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             val isBookmarkPlace = bookmarkPlaceIdList.contains(locationUIModel.placeId)
             IconButton(onClick = { onBookmarkClick(locationUIModel) }) {
                 Icon(
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(Dimensions.extra),
                     imageVector = Icons.Filled.Favorite,
-                    contentDescription = "북마크",
+                    contentDescription = BOOKMARK_TEXT,
                     tint = if (isBookmarkPlace) {
-                        Color.Red
+                        MaterialTheme.customColorScheme.checkedIconColor
                     } else {
-                        Color.LightGray
+                        MaterialTheme.customColorScheme.uncheckedIconColor
                     }
                 )
             }
@@ -61,15 +67,21 @@ fun LocationCard(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = locationUIModel.placeName,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.customColorScheme.onSurface
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(Dimensions.small))
 
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = locationUIModel.addressName,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.customColorScheme.onSurface.copy(
+                        alpha = 0.8f
+                    )
                 )
             }
         }
